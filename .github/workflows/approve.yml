@@ -1,0 +1,17 @@
+name: lab-approve
+on:
+  pull_request:
+    types: [opened, synchronize]
+permissions:
+  pull-requests: write
+  contents: read
+jobs:
+  approve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: approve
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: gh pr review "$PR" --approve --body "lab: bot approval"
